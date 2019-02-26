@@ -1,0 +1,12 @@
+ip: "192.168.10.10"
+name: "pimbox"
+memory: 2048
+folders:
+    - map: "~/www/pimbox"
+      to: "/vagrant"
+      type: "nfs"
+copy:
+    - from: "./bash_aliases"
+      to: "$HOME/.bash_aliases"
+run:
+    - "provision.sh"
