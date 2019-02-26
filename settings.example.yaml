@@ -6,7 +6,7 @@ folders:
       to: "/vagrant"
       type: "nfs"
 copy:
-    - from: "./bash_aliases"
+    - from: "./aliases"
       to: "$HOME/.bash_aliases"
 run:
     - "provision.sh"
