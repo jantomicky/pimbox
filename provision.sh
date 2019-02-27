@@ -57,6 +57,14 @@ if [ -f $FILE_VHOSTS ]; then
 	cp $FILE_VHOSTS /etc/apache2/sites-available/000-default.conf
 fi
 
+# Add 'vagrant' user to the 'www-data' group.
+echo "Adding 'vagrant' user to the 'www-data' group…"
+adduser vagrant www-data
+
+# Add 'www-data' user to the 'vagrant' group.
+echo "Adding 'www-data' user to the 'vagrant' group…"
+adduser www-data vagrant
+
 # Restart Apache for the changes to take place.
 echo "Restarting Apache…"
 systemctl restart apache2.service
