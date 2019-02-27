@@ -8,5 +8,7 @@ folders:
 copy:
     - from: "./aliases"
       to: "$HOME/.bash_aliases"
+    - from: "./vhosts"
+      to: "/tmp/vhosts"
 run:
     - "provision.sh"

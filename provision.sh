@@ -2,6 +2,7 @@
 
 # Set variables.
 FILE_PROVISIONED="/usr/local/provisioned"
+FILE_VHOSTS="/tmp/vhosts"
 DIR_MOUNT="/vagrant"
 DIR_HOME="/home/vagrant"
 DIR_TEMP="$DIR_HOME/temp"
@@ -48,7 +49,17 @@ fi
 
 # Make sure all the required Apache modules are enabled.
 echo "Enabling Apache modules…"
-a2enmod actions alias rewrite fastcgi proxy_fcgi
+a2enmod actions alias vhost_alias rewrite fastcgi proxy_fcgi
+
+# Set up Apache Virtual Hosts if available.
+if [ -f $FILE_VHOSTS ]; then
+	echo "Setting up Apache Dynamic Virtual Hosts…"
+	cp $FILE_VHOSTS /etc/apache2/sites-available/000-default.conf
+fi
+
+# Restart Apache for the changes to take place.
+echo "Restarting Apache…"
+systemctl restart apache2.service
 
 # Install the latest PHP 7.2 version.
 echo "Installing PHP 7.2…"

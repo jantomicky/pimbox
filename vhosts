@@ -1,0 +1,45 @@
+# Dynamic Virtual Hosts
+
+<VirtualHost *:80>
+        # The project directory name without the domain.
+        # For example, for "project.localhost", the %1 equals to "project".
+        VirtualDocumentRoot "/var/www/%1/web"
+        VirtualScriptAlias "/var/www/%1/cgi-bin"
+
+        # Allow .htaccess overrides.
+        <Directory /var/www/*>
+                Options -Indexes +FollowSymLinks +MultiViews
+                AllowOverride All
+                Require all granted
+        </Directory>
+
+        # Connect PHP FPM.
+        <FilesMatch \.php$>
+                SetHandler "proxy:unix:/var/run/php/php7.2-fpm.sock|fcgi://localhost/"
+        </FilesMatch>
+
+        # Customizable log locations.
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+# Static Virtual Hosts
+
+# <VirtualHost *:80>
+#         ServerName example.yourdomain
+#         ServerAlias *.example.yourdomain
+#         DocumentRoot /var/www/yourproject
+
+#         <Directory /var/www/yourproject>
+#                 Options -Indexes +FollowSymLinks +MultiViews
+#                 AllowOverride All
+#                 Require all granted
+#         </Directory>
+
+#         <FilesMatch \.php$>
+#                 SetHandler "proxy:unix:/var/run/php/php7.2-fpm.sock|fcgi://localhost/"
+#         </FilesMatch>
+
+#         ErrorLog ${APACHE_LOG_DIR}/error.log
+#         CustomLog ${APACHE_LOG_DIR}/access.log combined
+# </VirtualHost>
