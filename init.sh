@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cp settings.example.yaml settings.yaml
+cp Pimbox.example.yaml Pimbox.yaml
 echo "Pimbox initialized! "

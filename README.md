@@ -40,7 +40,7 @@ git clone git@github.com:jantomicky/pimbox.git /path/to/pimbox
 ```
 /bin/bash init.sh
 ```
-- Change your preferences in the `settings.yaml` file, refer to the defaults. Duplicate list items (_folders_, _copy_, _run…_) if needed.
+- Change your preferences in the `Pimbox.yaml` file, refer to the defaults. Duplicate list items (_folders_, _copy_, _run…_) if needed.
 - (Optional, Linux) Set up a helper function:
 ```
 vm() {

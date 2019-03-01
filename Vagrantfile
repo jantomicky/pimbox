@@ -12,13 +12,13 @@ defaultSettings = {
 }
 
 currentDirectory = File.expand_path(File.dirname(__FILE__))
-settingsFile = "#{currentDirectory}/settings.yaml"
+settingsFile = "#{currentDirectory}/Pimbox.yaml"
 
 if File.exist? settingsFile then
   customSettings = YAML::load(File.read(settingsFile))
   settings = defaultSettings.merge(customSettings)
 else
-  abort "Could not find settings.yaml file in #{currentDirectory}"
+  abort "Could not find Pimbox.yaml file in #{currentDirectory}"
 end
 
 # Documentation: https://docs.vagrantup.com
