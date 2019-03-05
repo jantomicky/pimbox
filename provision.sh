@@ -94,6 +94,11 @@ else
 fi
 rm composer-setup.php
 
+# Install Deployer.
+curl -LO https://deployer.org/deployer.phar
+mv deployer.phar /usr/local/bin/dep && chmod +x /usr/local/bin/dep
+sudo ln -s /usr/local/bin/dep /usr/local/bin/deployer
+
 # @todo Set up Elasticsearch.
 # Set up Elasticsearch.
 # echo "Setting up (binary, manual startup required) Elasticsearch 1.0.0 and 1.7.6…"
