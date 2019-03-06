@@ -2,7 +2,6 @@ alias mkd='mkdir -pv'
 alias lst='ls -lAh'
 
 function pimcore-set-rights() {
-    sudo chown -R vagrant:vagrant .
     sudo find . -type d -exec chmod 775 {} \;
     sudo find . -type f -exec chmod 664 {} \;
 }
