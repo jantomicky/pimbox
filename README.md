@@ -1,6 +1,6 @@
 # Pimbox
 
-**Work in progress!** Some features are not implemented out of the box yet (Node.js & npm, Mailhog, Xdebug…), do not use the box if you're not willing to set these up by yourself in the meantime.
+**Work in progress!** Some features are not implemented out of the box yet (Mailhog, Redis…), do not use the box if you're not willing to set these up by yourself in the meantime.
 
 Pimbox is a [Vagrant](https://www.vagrantup.com) box made specifically for running [Pimcore 5](https://pimcore.com). With corresponding PHP version installed (PHP 5.6 for Pimcore 2, PHP 7.0 for Pimcore 4) it can run older versions as well. It is supposed to serve as a replacement for LAMP/WAMP localhost packages, however per-project installation should work too.
 
