@@ -1,88 +1,93 @@
 #!/bin/bash
 
-# Set variables.
-FILE_PROVISIONED="/usr/local/provisioned"
-FILE_VHOSTS="/tmp/vhosts"
+# Variables.
 DIR_MOUNT="/vagrant"
 DIR_HOME="/home/vagrant"
-DIR_TEMP="$DIR_HOME/temp"
+DIR_TEMP="/tmp"
 DIR_PROVISION="$DIR_TEMP/provision"
+FILE_PROVISION="/usr/local/provision"
+FILE_VHOSTS="$DIR_TEMP/vhosts"
 CONFIGURATION_PHP="/etc/php/7.2/cli/php.ini /etc/php/7.2/fpm/php.ini"
-PASSWORD_MYSQL_ROOT='secret'
+MYSQL_PASSWORD_ROOT='secret'
 
-# Check the provisioning status.
-if [ -f $FILE_PROVISIONED ]; then
-	echo "Custom provisioning & configuration already done, skipping…"
+# Functions.
+function plog {
+	if [ -f $FILE_PROVISION ]; then
+		echo "Creating the provisioning log file at $FILE_PROVISION…"
+		touch $FILE_PROVISION
+	fi
+	echo $1 | tee -a $FILE_PROVISION
+}
+
+# Check the provisioning state.
+if [ -f $FILE_PROVISION ]; then
+	echo "Pimbox provisioning already done, skipping…"
 	exit 0
 fi
 
 # Set up swap.
-echo "Setting up swap file…"
+plog "Setting up swap file…"
 fallocate -l 4G /swapfile && chmod 600 /swapfile
 mkswap /swapfile && swapon /swapfile
 echo "/swapfile    none    swap    sw    0    0" >> /etc/fstab
 
-# Set various server settings.
-echo "Setting server time zone to Europe/Prague…"
+# Miscellaneous.
+plog "Setting server time zone to Europe/Prague…"
 ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
-echo "Setting up Vim as the default text editor…"
+plog "Setting up Vim as the default text editor…"
 echo "3" | update-alternatives --config editor > /dev/null
 
 # Add PPAs and update package lists.
-echo "Adding ppa:ondrej/php…"
+plog "Adding ppa:ondrej/php…"
 add-apt-repository -y ppa:ondrej/php
-echo "Updating package lists…"
+plog "Updating package lists…"
 apt-get update -y
 
 # Install essential packages.
-echo "Installing essential packages…"
-apt-get install -y expect unzip openjdk-8-jre-headless
+plog "Installing essential packages…"
+apt-get install -y build-essential openjdk-8-jre-headless unzip expect
 
 # Set up Apache.
-echo "Installing Apache (with FastCGI module)…"
+plog "Installing Apache (with FastCGI module)…"
 apt-get install -y apache2 libapache2-mod-fastcgi
-echo "Setting up the /var/www document root via a symbolic link…"
+plog "Setting up the /var/www document root via a symbolic link…"
 if ! [ -L /var/www ]; then
 	rm -rf /var/www
 	ln -fs $DIR_MOUNT /var/www
 fi
 
-# Make sure all the required Apache modules are enabled.
-echo "Enabling Apache modules…"
+# Enable all required Apache modules.
+plog "Enabling Apache modules…"
 a2enmod actions alias vhost_alias rewrite fastcgi proxy_fcgi
 
-# Set up Apache Virtual Hosts if available.
+# If available, set up Apache Virtual Hosts.
 if [ -f $FILE_VHOSTS ]; then
-	echo "Setting up Apache Dynamic Virtual Hosts…"
+	plog "Setting up Apache Dynamic Virtual Hosts…"
 	cp $FILE_VHOSTS /etc/apache2/sites-available/000-default.conf
 fi
 
 # Add 'vagrant' user to the 'www-data' group.
-echo "Adding 'vagrant' user to the 'www-data' group…"
+plog "Adding 'vagrant' user to the 'www-data' group…"
 adduser vagrant www-data
 
 # Add 'www-data' user to the 'vagrant' group.
-echo "Adding 'www-data' user to the 'vagrant' group…"
+plog "Adding 'www-data' user to the 'vagrant' group…"
 adduser www-data vagrant
 
 # Restart Apache for the changes to take place.
-echo "Restarting Apache…"
+plog "Restarting Apache…"
 systemctl restart apache2.service
 
 # Install the latest PHP 7.2 version.
-echo "Installing PHP 7.2…"
+plog "Installing PHP 7.2…"
 apt-get install -y php7.2 php7.2-fpm
 
-# Install the required PHP modules.
-echo "Installing PHP modules…"
-apt-get install -y php7.2-mysql php7.2-xml php7.2-curl php7.2-gd php7.2-bz2 php7.2-mbstring php7.2-zip php7.2-intl php7.2-dev
-
-# Install PEAR.
-echo "Installing PEAR…"
-apt-get install -y php-pear
+# Install all required PHP modules.
+plog "Installing PHP modules…"
+apt-get install -y php7.2-mysql php7.2-xml php7.2-curl php7.2-soap php7.2-gd php7.2-bz2 php7.2-mbstring php7.2-zip php7.2-intl php7.2-dev php7.2-xdebug
 
 # Install Composer.
-echo "Installing Composer…"
+plog "Installing Composer…"
 EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 ACTUAL_SIGNATURE="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
@@ -95,58 +100,64 @@ fi
 rm composer-setup.php
 
 # Install Deployer.
-curl -LO https://deployer.org/deployer.phar
-mv deployer.phar /usr/local/bin/dep && chmod +x /usr/local/bin/dep
+plog "Installing Deployer…"
+curl -sL https://deployer.org/deployer.phar -o /usr/local/bin/dep
+chmod +x /usr/local/bin/dep
 sudo ln -s /usr/local/bin/dep /usr/local/bin/deployer
 
-# @todo Set up Elasticsearch.
-# Set up Elasticsearch.
-# echo "Setting up (binary, manual startup required) Elasticsearch 1.0.0 and 1.7.6…"
-# cd $DIR_PROVISION/elasticsearch
-# unzip elasticsearch-binary.zip
-# mv Elasticsearch-1-0-0 Elasticsearch-1-7-6 $DIR_HOME
-
-# @todo Install and set up Node.js & npm.
-# Set up Node.js and NPM 5.6 (newer versions fail to 'npm install' with NFS).
-# echo "Installing Node.js & npm…"
-# apt install -y nodejs npm
-# echo "Downgrading npm to version 5.6…"
-# npm install -g npm@5.6
-# echo "Installing npm dependencies…"
-# npm install -g cross-env
-
 # Set up custom PHP (and modules) settings.
-echo "Setting up custom PHP settings…"
+plog "Configuring PHP…"
 sed -i "s|;session.save_path|session.save_path|" $CONFIGURATION_PHP
 sed -i "s|short_open_tag = Off|short_open_tag = On|" $CONFIGURATION_PHP
 sed -i "s|memory_limit = 128M|memory_limit = 1024M|" $CONFIGURATION_PHP
 sed -i "s|upload_max_filesize = 2M|upload_max_filesize = 128M|" $CONFIGURATION_PHP
 sed -i "s|post_max_size = 8M|post_max_size = 128M|" $CONFIGURATION_PHP
 
-# @todo Install and set up Mailhog.
+# Configure XDebug.
+plog "Configuring XDebug…"
+cat >> /etc/php/7.2/mods-available/xdebug.ini <<EOL
+debug.remote_enable = 1
+xdebug.remote_connect_back = 1
+xdebug.remote_port = 9000
+xdebug.max_nesting_level = 1024
+EOL
+
+# Restart PHP-FPM for the changes to take place.
+plog "Restarting PHP-FPM…"
+systemctl restart php7.2-fpm.service
+
+# Node.js & npm.
+plog "Installing Node.js & npm…"
+curl -s https://deb.nodesource.com/setup_8.x -o $DIR_TEMP/nodejs_setup.sh
+$(which bash) $DIR_TEMP/nodejs_setup.sh
+apt-get install -y nodejs
+plog "Installing npm packages…"
+npm install -g cross-env
+
+# @todo Mailhog.
 # sed -i "s|;sendmail_path =|sendmail_path = /usr/local/bin/mailhog sendmail noreply@example.com|" $CONFIGURATION_PHP
-
-# @todo Install and set up XDebug.
-# echo "Customizing XDebug…"
-# sed -i "s|xdebug.max_nesting_level = 512|xdebug.max_nesting_level = 1024|" /etc/php/*/mods-available/xdebug.ini
-
-# @todo Install Imagick.
-# @todo Install Redis.
+# @todo Elasticsearch
+# Set up Elasticsearch.
+# echo "Setting up (binary, manual startup required) Elasticsearch 1.0.0 and 1.7.6…"
+# cd $DIR_PROVISION/elasticsearch
+# unzip elasticsearch-binary.zip
+# mv Elasticsearch-1-0-0 Elasticsearch-1-7-6 $DIR_HOME
+# @todo Imagick, Redis.
 
 # Install and set up MySQL.
-echo "Installing MySQL 5.7…"
+plog "Installing MySQL 5.7…"
 export DEBIAN_FRONTEND=noninteractive
-echo "mysql-server-5.7 mysql-server/root_password password $PASSWORD_MYSQL_ROOT" | debconf-set-selections
-echo "mysql-server-5.7 mysql-server/root_password_again password $PASSWORD_MYSQL_ROOT" | debconf-set-selections
+echo "mysql-server-5.7 mysql-server/root_password password $MYSQL_PASSWORD_ROOT" | debconf-set-selections
+echo "mysql-server-5.7 mysql-server/root_password_again password $MYSQL_PASSWORD_ROOT" | debconf-set-selections
 apt-get install -y mysql-server-5.7
 
 # Build Expect script to set up MySQL defaults.
-echo "Building Expect script to set up MySQL defaults…"
-tee ~/mysql.sh > /dev/null << EOF
+plog "Running expect script to set up MySQL security options…"
+tee $DIR_TEMP/mysql_security.sh > /dev/null << EOF
 spawn $(which mysql_secure_installation)
 
 expect "Enter password for user root:"
-send "$PASSWORD_MYSQL_ROOT\r"
+send "$MYSQL_PASSWORD_ROOT\r"
 
 expect "Press y|Y for Yes, any other key for No:"
 send "y\r"
@@ -168,22 +179,19 @@ send "y\r"
 
 expect "Reload privilege tables now? (Press y|Y for Yes, any other key for No) :"
 send "y\r"
-
 EOF
 
-expect ~/mysql.sh
-rm -v ~/mysql.sh
-apt-get -qq purge expect > /dev/null
+expect $DIR_TEMP/mysql_security.sh
 
-# Custom MySQL settings.
-echo "Customizing MySQL settings…"
-echo "Setting up 'deployment' login-path…"
-echo "secret" | mysql_config_editor set --login-path=deployment --host=localhost --user=root --password
+plog "Running expect script to set up MySQL login paths…"
+tee $DIR_TEMP/mysql_loginpaths.sh > /dev/null << EOF
+spawn $(which mysql_config_editor) set --login-path=deployment --host=localhost --user=root --password
 
-# Clean up temporary files.
-echo "Removing the temporary directory…"
-rm -rf $DIR_TEMP
+expect "Enter password:"
+send "$MYSQL_PASSWORD_ROOT\r"
+EOF
 
-# Remember the provisioning.
-echo "Writing the provisioning file…"
-touch $FILE_PROVISIONED
+sudo -u vagrant -H expect $DIR_TEMP/mysql_loginpaths.sh
+
+# Finishing up.
+plog "Done!"
