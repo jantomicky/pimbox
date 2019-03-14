@@ -90,8 +90,6 @@ vm pimbox ssh
 - You might need to install the `net-tools` package on Arch-based distributions for the NFS to work.
 
 ## Work in progress
-- Node.js & npm
-- Xdebug
 - Mailhog
 - Elasticsearch
 - Redis
