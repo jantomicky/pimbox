@@ -11,4 +11,5 @@ copy:
     - from: "./vhosts"
       to: "/tmp/vhosts"
 run:
-    - "provision.sh"
+    - path: "provision.sh"
+      privileged: true

@@ -3,7 +3,7 @@
 
 require 'yaml'
 
-# Set up settings.
+# Defaults.
 defaultSettings = {
   "ip" => "10.0.0.10",
   "name" => "default",
@@ -11,6 +11,7 @@ defaultSettings = {
   "cpus" => 1
 }
 
+# Load settings.
 currentDirectory = File.expand_path(File.dirname(__FILE__))
 settingsFile = "#{currentDirectory}/Pimbox.yaml"
 
@@ -30,7 +31,7 @@ Vagrant.configure("2") do |config|
   # Set the box name.
   config.vm.define settings['name']
 
-  # Create a private network for host-only access to the machine.
+  # Create a private network for host-only access.
   config.vm.network "private_network", ip: settings['ip']
 
   # Provider-specific settings.
@@ -69,11 +70,12 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # Forwarding SSH credentials.
+  # Forward SSH credentials.
   config.ssh.forward_agent = true
 
   # Run provisioning shell scripts.
   settings['run'].each do |script|
-    config.vm.provision "shell", path: script
+    run = {"privileged" => false}.merge(script)
+    config.vm.provision "shell", path: run['path'], privileged: run['privileged']
   end
 end
