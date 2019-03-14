@@ -116,7 +116,7 @@ sed -i "s|post_max_size = 8M|post_max_size = 128M|" $CONFIGURATION_PHP
 # Configure XDebug.
 plog "Configuring XDebug…"
 cat >> /etc/php/7.2/mods-available/xdebug.ini <<EOL
-debug.remote_enable = 1
+xdebug.remote_enable = 1
 xdebug.remote_connect_back = 1
 xdebug.remote_port = 9000
 xdebug.max_nesting_level = 1024
