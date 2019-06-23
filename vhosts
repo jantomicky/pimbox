@@ -3,11 +3,11 @@
 <VirtualHost *:80>
         # The project directory name without the domain.
         # For example, for "project.localhost", the %1 equals to "project".
-        VirtualDocumentRoot "/var/www/%1/web"
-        VirtualScriptAlias "/var/www/%1/cgi-bin"
+        VirtualDocumentRoot "/home/vagrant/www/%1/web"
+        VirtualScriptAlias "/home/vagrant/www/%1/cgi-bin"
 
         # Allow .htaccess overrides.
-        <Directory /var/www/*>
+        <Directory /home/vagrant/www/*>
                 Options -Indexes +FollowSymLinks +MultiViews
                 AllowOverride All
                 Require all granted
@@ -28,9 +28,9 @@
 # <VirtualHost *:80>
 #         ServerName example.yourdomain
 #         ServerAlias *.example.yourdomain
-#         DocumentRoot /var/www/yourproject
+#         DocumentRoot /home/vagrant/www/yourproject
 
-#         <Directory /var/www/yourproject>
+#         <Directory /home/vagrant/www/yourproject>
 #                 Options -Indexes +FollowSymLinks +MultiViews
 #                 AllowOverride All
 #                 Require all granted
