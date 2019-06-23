@@ -3,7 +3,7 @@ name: "pimbox"
 memory: 2048
 folders:
     - map: "~/www/pimbox"
-      to: "/vagrant"
+      to: "/home/vagrant/www"
       type: "nfs"
 copy:
     - from: "./aliases"

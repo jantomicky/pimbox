@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Variables.
-DIR_MOUNT="/vagrant"
 DIR_HOME="/home/vagrant"
 DIR_TEMP="/tmp"
 DIR_PROVISION="$DIR_TEMP/provision"
@@ -53,11 +52,6 @@ apt-get install -y build-essential openjdk-8-jre-headless unzip expect
 # Set up Apache.
 plog "Installing Apache (with FastCGI module)…"
 apt-get install -y apache2 libapache2-mod-fastcgi
-plog "Setting up the /var/www document root via a symbolic link…"
-if ! [ -L /var/www ]; then
-	rm -rf /var/www
-	ln -fs $DIR_MOUNT /var/www
-fi
 
 # Enable all required Apache modules.
 plog "Enabling Apache modules…"
