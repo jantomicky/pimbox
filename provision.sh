@@ -43,6 +43,9 @@ add-apt-repository -y ppa:ondrej/php
 plog "Updating package lists…"
 apt-get update -y
 
+# Upgrade all packages.
+apt-get upgrade -y
+
 # Install essential packages.
 plog "Installing essential packages…"
 apt-get install -y build-essential openjdk-8-jre-headless unzip expect
