@@ -43,6 +43,7 @@ plog "Updating package lists…"
 apt-get update -y
 
 # Upgrade all packages.
+plog "Upgrading packages…"
 apt-get upgrade -y
 
 # Install essential packages.
