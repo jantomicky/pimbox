@@ -149,38 +149,6 @@ echo "mysql-server-5.7 mysql-server/root_password password $MYSQL_PASSWORD_ROOT"
 echo "mysql-server-5.7 mysql-server/root_password_again password $MYSQL_PASSWORD_ROOT" | debconf-set-selections
 apt-get install -y mysql-server-5.7
 
-# Build Expect script to set up MySQL defaults.
-plog "Running expect script to set up MySQL security options…"
-tee $DIR_TEMP/mysql_security.sh > /dev/null << EOF
-spawn $(which mysql_secure_installation)
-
-expect "Enter password for user root:"
-send "$MYSQL_PASSWORD_ROOT\r"
-
-expect "Press y|Y for Yes, any other key for No:"
-send "y\r"
-
-expect "Please enter 0 = LOW, 1 = MEDIUM and 2 = STRONG:"
-send "0\r"
-
-expect "Change the password for root ? ((Press y|Y for Yes, any other key for No) :"
-send "n\r"
-
-expect "Remove anonymous users? (Press y|Y for Yes, any other key for No) :"
-send "y\r"
-
-expect "Disallow root login remotely? (Press y|Y for Yes, any other key for No) :"
-send "y\r"
-
-expect "Remove test database and access to it? (Press y|Y for Yes, any other key for No) :"
-send "y\r"
-
-expect "Reload privilege tables now? (Press y|Y for Yes, any other key for No) :"
-send "y\r"
-EOF
-
-expect $DIR_TEMP/mysql_security.sh
-
 plog "Running expect script to set up MySQL login paths…"
 tee $DIR_TEMP/mysql_loginpaths.sh > /dev/null << EOF
 spawn $(which mysql_config_editor) set --login-path=deployment --host=localhost --user=root --password
