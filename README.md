@@ -1,8 +1,8 @@
 # Pimbox
 
-**Work in progress!** Some features are not implemented out of the box yet (Mailhog, Redis…), do not use the box if you're not willing to set these up by yourself in the meantime.
+**Work in progress!** Some features are not implemented out of the box yet (Mailhog, Elasticsearch…), do not use the box if you're not willing to set these up by yourself.
 
-Pimbox is a [Vagrant](https://www.vagrantup.com) box made specifically for running [Pimcore 5](https://pimcore.com). With corresponding PHP version installed (PHP 5.6 for Pimcore 2, PHP 7.0 for Pimcore 4) it can run older versions as well. It is supposed to serve as a replacement for LAMP/WAMP localhost packages, however per-project installation should work too.
+Pimbox is a [Vagrant](https://www.vagrantup.com) box made specifically for running [Pimcore 5](https://pimcore.com) and above. With corresponding PHP version installed (PHP 5.6 for Pimcore 2, PHP 7.0 for Pimcore 4) it should be able to run older versions as well. It is supposed to serve as a replacement for LAMP/WAMP localhost packages, however per-project installation should work too.
 
 Thanks to everybody behind [Laravel Homestead](https://github.com/laravel/homestead)! Pimbox uses a few Homestead snippets that helped me understand how Vagrant and Ruby work, and how to make this box easier to use.
 
@@ -10,7 +10,7 @@ Thanks to everybody behind [Laravel Homestead](https://github.com/laravel/homest
 
 ### Packages
 
-- Apache & MySQL, versions, modules, settings for [Pimcore 5](https://pimcore.com/docs/5.x/Development_Documentation/Installation_and_Upgrade/System_Requirements.html)
+- Apache & MySQL, versions, modules, settings for >= [Pimcore 5](https://pimcore.com/docs/5.x/Development_Documentation/Installation_and_Upgrade/System_Requirements.html)
 - PHP 7.2 (FPM, FastCGI)
 - Composer
 - Java Runtime Environment 8
@@ -38,7 +38,7 @@ git clone git@github.com:jantomicky/pimbox.git /path/to/pimbox
 - Where `/path/to/pimbox` is the directory the box configuration and "interface" will live in. To issue Vagrant commands like `vagrant up`, you either `cd` into this directory or you set up a helper function in your `~/.bashrc` or `~/.bash_aliases` files (see below).
 - Run the initialization script:
 ```
-/bin/bash init.sh
+./init.sh
 ```
 - Change your preferences in the `Pimbox.yaml` file, refer to the defaults. Duplicate list items (_folders_, _copy_, _run…_) if needed.
 - (Optional, Linux) Set up a helper function:
@@ -88,8 +88,11 @@ vm pimbox ssh
 
 ### Linux
 - You might need to install the `net-tools` package on Arch-based distributions for the NFS to work.
+- You might need to allow the `udp=y` line in the NFS configuration file ([related issue](https://github.com/hashicorp/vagrant/issues/9666)) in `/etc/nfs.conf`, then either destroy and re-create the box, or prune the NFS exports with:
+```
+vagrant global-status --prune
+```
 
 ## Work in progress
 - Mailhog
 - Elasticsearch
-- Redis
