@@ -48,7 +48,7 @@ apt-get upgrade -y
 
 # Install essential packages.
 plog "Installing essential packages…"
-apt-get install -y build-essential openjdk-8-jre-headless unzip expect
+apt-get install -y build-essential openjdk-8-jre-headless unzip expect redis-server
 
 # Set up Apache.
 plog "Installing Apache (with FastCGI module)…"
