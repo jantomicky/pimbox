@@ -140,7 +140,7 @@ npm install -g cross-env
 # cd $DIR_PROVISION/elasticsearch
 # unzip elasticsearch-binary.zip
 # mv Elasticsearch-1-0-0 Elasticsearch-1-7-6 $DIR_HOME
-# @todo Imagick, Redis.
+# @todo Imagick.
 
 # Install and set up MySQL.
 plog "Installing MySQL 5.7…"
