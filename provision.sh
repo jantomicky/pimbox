@@ -7,6 +7,7 @@ DIR_PROVISION="$DIR_TEMP/provision"
 FILE_PROVISION="/usr/local/provision"
 FILE_VHOSTS="$DIR_TEMP/vhosts"
 CONFIGURATION_PHP="/etc/php/7.2/cli/php.ini /etc/php/7.2/fpm/php.ini"
+CONFIGURATION_MYSQL="/etc/mysql/mysql.conf.d/mysqld.cnf"
 MYSQL_PASSWORD_ROOT='secret'
 
 # Functions.
@@ -148,6 +149,10 @@ export DEBIAN_FRONTEND=noninteractive
 echo "mysql-server-5.7 mysql-server/root_password password $MYSQL_PASSWORD_ROOT" | debconf-set-selections
 echo "mysql-server-5.7 mysql-server/root_password_again password $MYSQL_PASSWORD_ROOT" | debconf-set-selections
 apt-get install -y mysql-server-5.7
+
+# Allow remote connections to MySQL.
+plog "Allowing remote connections to MySQL…"
+sudo sed -i "s|127.0.0.1|0.0.0.0|" $CONFIGURATION_MYSQL 
 
 plog "Running expect script to set up MySQL login paths…"
 tee $DIR_TEMP/mysql_loginpaths.sh > /dev/null << EOF
