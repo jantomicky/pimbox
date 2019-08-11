@@ -153,6 +153,8 @@ apt-get install -y mysql-server-5.7
 # Allow remote connections to MySQL.
 plog "Allowing remote connections to MySQL…"
 sudo sed -i "s|127.0.0.1|0.0.0.0|" $CONFIGURATION_MYSQL
+$(which mysql) --user="root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD_ROOT';"
+$(which mysql) --user="root" --password="$MYSQL_PASSWORD_ROOT" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;"
 
 # Set up the "deployment" login path.
 plog "Running expect script to set up MySQL login paths…"
@@ -164,6 +166,10 @@ send "$MYSQL_PASSWORD_ROOT\r"
 EOF
 
 sudo -u vagrant -H expect $DIR_TEMP/mysql_loginpaths.sh
+
+# Restart MySQL for the changes to take place.
+plog "Restarting MySQL…"
+systemctl restart mysql.service
 
 # Finishing up.
 plog "Done!"
