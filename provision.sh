@@ -152,8 +152,9 @@ apt-get install -y mysql-server-5.7
 
 # Allow remote connections to MySQL.
 plog "Allowing remote connections to MySQL…"
-sudo sed -i "s|127.0.0.1|0.0.0.0|" $CONFIGURATION_MYSQL 
+sudo sed -i "s|127.0.0.1|0.0.0.0|" $CONFIGURATION_MYSQL
 
+# Set up the "deployment" login path.
 plog "Running expect script to set up MySQL login paths…"
 tee $DIR_TEMP/mysql_loginpaths.sh > /dev/null << EOF
 spawn $(which mysql_config_editor) set --login-path=deployment --host=localhost --user=root --password
