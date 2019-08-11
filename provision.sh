@@ -156,6 +156,14 @@ sed -i "s|127.0.0.1|0.0.0.0|" $CONFIGURATION_MYSQL
 $(which mysql) --user="root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD_ROOT';"
 $(which mysql) --user="root" --password="$MYSQL_PASSWORD_ROOT" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;"
 
+# Create a non-root "pimbox" MySQL user with administrator priviledges.
+plog "Creating the 'pimbox' MySQL user…"
+$(which mysql) --user="root" --password="$MYSQL_PASSWORD_ROOT" -e "CREATE USER 'pimbox'@'0.0.0.0' IDENTIFIED BY '$MYSQL_PASSWORD_ROOT';"
+$(which mysql) --user="root" --password="$MYSQL_PASSWORD_ROOT" -e "CREATE USER 'pimbox'@'%' IDENTIFIED BY '$MYSQL_PASSWORD_ROOT';"
+$(which mysql) --user="root" --password="$MYSQL_PASSWORD_ROOT" -e "GRANT ALL PRIVILEGES ON *.* TO 'pimbox'@'0.0.0.0' WITH GRANT OPTION;"
+$(which mysql) --user="root" --password="$MYSQL_PASSWORD_ROOT" -e "GRANT ALL PRIVILEGES ON *.* TO 'pimbox'@'%' WITH GRANT OPTION;"
+$(which mysql) --user="root" --password="$MYSQL_PASSWORD_ROOT" -e "FLUSH PRIVILEGES;"
+
 # Set up the "deployment" login path.
 plog "Running expect script to set up MySQL login paths…"
 tee $DIR_TEMP/mysql_loginpaths.sh > /dev/null << EOF
