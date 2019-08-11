@@ -102,7 +102,7 @@ rm composer-setup.php
 plog "Installing Deployer…"
 curl -sL https://deployer.org/deployer.phar -o /usr/local/bin/dep
 chmod +x /usr/local/bin/dep
-sudo ln -s /usr/local/bin/dep /usr/local/bin/deployer
+ln -s /usr/local/bin/dep /usr/local/bin/deployer
 
 # Set up custom PHP (and modules) settings.
 plog "Configuring PHP…"
@@ -152,7 +152,7 @@ apt-get install -y mysql-server-5.7
 
 # Allow remote connections to MySQL.
 plog "Allowing remote connections to MySQL…"
-sudo sed -i "s|127.0.0.1|0.0.0.0|" $CONFIGURATION_MYSQL
+sed -i "s|127.0.0.1|0.0.0.0|" $CONFIGURATION_MYSQL
 $(which mysql) --user="root" -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD_ROOT';"
 $(which mysql) --user="root" --password="$MYSQL_PASSWORD_ROOT" -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;"
 
