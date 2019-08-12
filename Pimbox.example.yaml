@@ -1,6 +1,9 @@
 ip: "192.168.10.10"
 name: "pimbox"
 memory: 2048
+# ssh:
+#     forward_agent: true
+#     configuration_file: ~/.ssh/config
 folders:
     - map: "~/www/pimbox"
       to: "/home/vagrant/www"

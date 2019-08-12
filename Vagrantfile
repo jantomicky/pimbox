@@ -71,7 +71,15 @@ Vagrant.configure("2") do |config|
   end
 
   # Forward SSH credentials.
-  config.ssh.forward_agent = true
+  if settings['ssh']['forward_agent']
+    config.ssh.forward_agent = true
+  end
+
+  # Forward SSH configuration.
+  sshConfigurationFile = settings['ssh']['configuration_file']
+  if sshConfigurationFile && (File.exist? File.expand_path(sshConfigurationFile))
+    config.ssh.config = sshConfigurationFile
+  end
 
   # Run provisioning shell scripts.
   settings['run'].each do |script|
