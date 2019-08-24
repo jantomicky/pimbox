@@ -10,12 +10,11 @@ Thanks to everybody behind [Laravel Homestead](https://github.com/laravel/homest
 
 ### Packages
 
-- Apache & MySQL, versions, modules, settings for >= [Pimcore 5](https://pimcore.com/docs/5.x/Development_Documentation/Installation_and_Upgrade/System_Requirements.html)
-- PHP (FPM, FastCGI), 7.0 + 7.2 scripts available for provisioning.
-- Composer
-- Deployer
-- Redis
-- Java Runtime Environment 8
+- Apache & MySQL, versions, modules, settings for >= [Pimcore 5](https://pimcore.com/docs/5.x/Development_Documentation/Installation_and_Upgrade/System_Requirements.html).
+- PHP (FPM, FastCGI, 7.0 + 7.2 scripts available for provisioning).
+- Composer & Deployer.
+- Redis (server, CLI).
+- Java Runtime Environment 8 (for Elasticsearch).
 
 ### Bash
 
