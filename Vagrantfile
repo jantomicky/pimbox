@@ -75,15 +75,13 @@ Vagrant.configure("2") do |config|
     config.ssh.forward_agent = true
   end
 
-  # Forward SSH configuration.
-  sshConfigurationFile = settings['ssh']['configuration_file']
-  if sshConfigurationFile && (File.exist? File.expand_path(sshConfigurationFile))
-    config.ssh.config = sshConfigurationFile
-  end
+  # Run essential provisioning shell scripts.
+  config.vm.provision "shell", path: "./scripts/pimbox_root.sh"
+  config.vm.provision "shell", path: "./scripts/pimbox_user.sh", privileged: false
 
-  # Run provisioning shell scripts.
+  # Run user specified provisioning shell scripts.
   settings['run'].each do |script|
-    run = {"privileged" => false}.merge(script)
+    run = {"privileged" => true}.merge(script)
     config.vm.provision "shell", path: run['path'], privileged: run['privileged']
   end
 end

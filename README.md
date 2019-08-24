@@ -11,14 +11,18 @@ Thanks to everybody behind [Laravel Homestead](https://github.com/laravel/homest
 ### Packages
 
 - Apache & MySQL, versions, modules, settings for >= [Pimcore 5](https://pimcore.com/docs/5.x/Development_Documentation/Installation_and_Upgrade/System_Requirements.html)
-- PHP 7.2 (FPM, FastCGI)
+- PHP (FPM, FastCGI), 7.0 + 7.2 scripts available for provisioning.
 - Composer
+- Deployer
+- Redis
 - Java Runtime Environment 8
 
 ### Bash
-- A few handy aliases and helper functions, see the `bash_aliases` file.
+
+- A few handy aliases, helper functions and settings, see the `bash_aliases` file.
 
 ## Requirements
+
 - Vagrant alongside a supported VM provider, for example [VirtualBox](https://www.virtualbox.org/).
 - (Recommended) Vagrant [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs) plugin:
 ```
@@ -74,12 +78,18 @@ vagrant ssh
 vm pimbox ssh
 ```
 
+## Credentials
+
+### MySQL
+
+- User: `pimbox`
+- Password: `secret`
 
 ## Tips
 
 ### General
 
-- Use NFS for sharing folders, really helps with performance.
+- Use NFS for sharing folders (enabled by default), really helps with performance.
 
 ### Windows
 
@@ -87,12 +97,15 @@ vm pimbox ssh
 - When running `npm install` it may be necessary to add `--no-bin-links` parameter as Windows won't handle symlinks properly.
 
 ### Linux
-- You might need to install the `net-tools` package on Arch-based distributions for the NFS to work.
-- You might need to allow the `udp=y` line in the NFS configuration file ([related issue](https://github.com/hashicorp/vagrant/issues/9666)) in `/etc/nfs.conf`, then either destroy and re-create the box, or prune the NFS exports with:
+- You might need to install the `net-tools` package on Arch-based distributions ([see docs](https://wiki.archlinux.org/index.php/Vagrant#Troubleshooting)) for the NFS to work.
+- Using NFS will require root permissions when booting the VM unless configured otherwise ([see docs](https://www.vagrantup.com/docs/synced-folders/nfs.html#root-privilege-requirement)).
+- You might need to allow the `udp=y` line in the NFS configuration file ([see issue](https://github.com/hashicorp/vagrant/issues/9666)) in `/etc/nfs.conf`, then, if already created, either destroy and re-create the box, or prune the NFS exports:
 ```
 vagrant global-status --prune
 ```
 
-## Work in progress
+## TODO
+
+- Imagick
 - Mailhog
 - Elasticsearch
