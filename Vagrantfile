@@ -71,7 +71,7 @@ Vagrant.configure("2") do |config|
   end
 
   # Forward SSH credentials.
-  if settings['ssh']['forward_agent']
+  if settings.include? 'ssh' and settings['ssh']['forward_agent']
     config.ssh.forward_agent = true
   end
 
