@@ -5,8 +5,9 @@ MYSQL_USER='pimbox'
 MYSQL_PASSWORD='secret'
 MYSQL_UP=$(pgrep mysql | wc -l);
 
+echo "Setting up MySQL login-paths…"
 if [ "$MYSQL_UP" -eq "0" ]; then
-    echo "MySQL is not running, cannot set up login-paths."
+    echo "ERROR: MySQL is not running, cannot set up login-paths!"
     exit 0
 fi
 

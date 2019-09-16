@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if ! [ -x "$(command -v php)" ]; then
-    echo "PHP is missing, cannot install PHP tools."
+    echo "ERROR: PHP is missing, cannot install PHP tools."
     exit 0
 fi
 
