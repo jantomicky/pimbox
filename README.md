@@ -1,6 +1,6 @@
 # Pimbox
 
-**Work in progress!** Some features are not implemented out of the box yet (Mailhog, Elasticsearch…), do not use the box if you're not willing to set these up by yourself.
+**Work in progress!** Some features are not implemented out of the box yet (Mailhog), do not use the box if you're not willing to set these up by yourself.
 
 Pimbox is a [Vagrant](https://www.vagrantup.com) box made specifically for running [Pimcore 5](https://pimcore.com) and above. With corresponding PHP version installed (PHP 5.6 for Pimcore 2, PHP 7.0 for Pimcore 4) it should be able to run older versions as well. It is supposed to serve as a replacement for LAMP/WAMP localhost packages, however per-project installation should work too.
 
@@ -14,6 +14,7 @@ Thanks to everybody behind [Laravel Homestead](https://github.com/laravel/homest
 - PHP (FPM, FastCGI, 7.0 + 7.2 scripts available for provisioning).
 - Composer & Deployer.
 - Redis (server, CLI).
+- Elasticsearch (very specific, customized 1.0.0 and 1.7.6 versions for my personally use, probably of no use to anyone else).
 - Java Runtime Environment 8 (for Elasticsearch).
 
 ### Bash
@@ -107,4 +108,3 @@ vagrant global-status --prune
 
 - Imagick
 - Mailhog
-- Elasticsearch

@@ -23,3 +23,4 @@ run:
     - path: "./scripts/install/php-tools.sh"
     - path: "./scripts/install/mysql5.7.sh"
     - path: "./scripts/addons/mysql-login-path.sh"
+    - path: "./scripts/addons/elasticsearch.sh"
