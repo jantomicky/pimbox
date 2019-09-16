@@ -6,7 +6,7 @@ require 'yaml'
 # Defaults.
 defaultSettings = {
   "ip" => "10.0.0.10",
-  "name" => "default",
+  "name" => "pimbox",
   "memory" => 2048,
   "cpus" => 1
 }
@@ -30,6 +30,9 @@ Vagrant.configure("2") do |config|
 
   # Set the box name.
   config.vm.define settings['name']
+
+  # Set the box name.
+  config.vm.hostname = settings['name']
 
   # Create a private network for host-only access.
   config.vm.network "private_network", ip: settings['ip']
