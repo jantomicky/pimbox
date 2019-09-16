@@ -14,7 +14,7 @@ Thanks to everybody behind [Laravel Homestead](https://github.com/laravel/homest
 - PHP (FPM, FastCGI, 7.0 + 7.2 scripts available for provisioning).
 - Composer & Deployer.
 - Redis (server, CLI).
-- Elasticsearch (very specific, customized 1.0.0 and 1.7.6 versions for my personally use, probably of no use to anyone else).
+- Elasticsearch (very specific, customized 1.0.0 and 1.7.6 versions for my personal use, probably of no use to anyone else).
 - Java Runtime Environment 8 (for Elasticsearch).
 
 ### Bash
