@@ -2,3 +2,4 @@
 /Pimbox.yaml
 /*.log
 /scripts/custom/*
+!/scripts/custom/.gitkeep
