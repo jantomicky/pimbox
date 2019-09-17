@@ -6,7 +6,7 @@ echo "Installing Apache2 (with FastCGI module)…"
 apt-get install -y apache2 libapache2-mod-fastcgi
 
 echo "Enabling Apache2 modules…"
-a2enmod actions alias vhost_alias rewrite fastcgi proxy_fcgi
+a2enmod actions alias vhost_alias rewrite headers fastcgi proxy_fcgi
 
 # If available, set up Virtual Hosts.
 if [ -f $FILE_VHOSTS ]; then
@@ -19,6 +19,9 @@ adduser vagrant www-data
 
 echo "Adding 'www-data' user to the 'vagrant' group…"
 adduser www-data vagrant
+
+echo "Setting 'localhost' as ServerName…"
+echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 echo "Setting 'www-data' user umask (0002) to grant group write permissions…"
 echo "umask 0002" >> /etc/apache2/envvars
