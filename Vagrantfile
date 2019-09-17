@@ -28,6 +28,13 @@ Vagrant.configure("2") do |config|
   # Boxes: https://vagrantcloud.com/search
   config.vm.box = "ubuntu/xenial64"
 
+  # Disksize: https://github.com/sprotheroe/vagrant-disksize
+  if settings.include? 'disk'
+    if Vagrant.has_plugin?('vagrant-disksize')
+      config.disksize.size = settings['disk']
+    end
+  end
+
   # Set the box name.
   config.vm.define settings['name']
 

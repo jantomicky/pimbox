@@ -1,6 +1,7 @@
 ip: "192.168.10.10"
 name: "pimbox"
 memory: 2048
+# disk: "20GB"
 # ssh:
 #     forward_agent: true
 folders:

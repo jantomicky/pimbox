@@ -32,6 +32,10 @@ vagrant plugin install vagrant-bindfs
 ```
 vagrant plugin install vagrant-winnfsd
 ```
+- (Optional) Vagrant [vagrant-disksize](https://github.com/sprotheroe/vagrant-disksize) plugin, if you need to set your own disk size:
+```
+vagrant plugin install vagrant-disksize
+```
 
 ## Setup
 
