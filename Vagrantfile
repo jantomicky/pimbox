@@ -64,8 +64,10 @@ Vagrant.configure("2") do |config|
         options.keys.each{|k| options[k.to_sym] = options.delete(k) }
         config.vm.synced_folder folder['map'], folder['to'], type: folder['type'] ||= nil, **options
 
-        if folder['type'] == 'nfs' && Vagrant.has_plugin?('vagrant-bindfs')
-          config.bindfs.bind_folder folder['to'], folder['to'], perms: "u=rwX,g=rwX,o=rX"
+        if folder['type'] == 'nfs'
+          if Vagrant.has_plugin?('vagrant-bindfs')
+            config.bindfs.bind_folder folder['to'], folder['to'], perms: "u=rwX,g=rwX,o=rX"
+          end
         end
       else
         print "Failed to map #{folder['map']}, check your configuration"
