@@ -47,5 +47,15 @@ fi
 echo "Elasticsearch \$1 is running…"
 EOT
 
+echo "Setting up Elasticsearch PID file cleanup on exit…"
+cat << EOT >> .bash_logout
+# Remove Elasticsearch PID file so that we don't
+# kill a random process on the next startup.
+PID_FILE="$PID_FILE"
+if [ -f "\$PID_FILE" ]; then
+    rm \$PID_FILE
+fi
+EOT
+
 chmod +x $EXECUTABLE_PATH
 echo "Elasticsearch installed."
