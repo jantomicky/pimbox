@@ -53,7 +53,7 @@ cat << EOT >> .bash_logout
 # kill a random process on the next startup.
 PID_FILE="$PID_FILE"
 if [ -f "\$PID_FILE" ]; then
-    rm \$PID_FILE
+    rm -f \$PID_FILE
 fi
 EOT
 
