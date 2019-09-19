@@ -20,7 +20,7 @@ echo "Upgrading packages…"
 apt-get upgrade -y
 
 echo "Installing essential packages…"
-apt-get install -y build-essential openjdk-8-jre-headless unzip redis-server redis-tools
+apt-get install -y build-essential openjdk-8-jre-headless unzip redis-server redis-tools htop
 
 echo "Installing Node.js & npm…"
 curl -s https://deb.nodesource.com/setup_8.x -o /tmp/nodejs_setup.sh
