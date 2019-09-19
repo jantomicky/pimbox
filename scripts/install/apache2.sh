@@ -1,5 +1,6 @@
 #!/bin/bash
 
+FILE_CONFIG="/etc/apache2/apache2.conf"
 FILE_VHOSTS="/tmp/vhosts"
 
 echo "Installing Apache2 (with FastCGI module)…"
@@ -22,6 +23,16 @@ adduser www-data vagrant
 
 echo "Setting 'localhost' as ServerName…"
 echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+echo "Increasing timeout limits…"
+sed -i "s|Timeout 300|Timeout 1800|" $FILE_CONFIG
+cat << EOT >> $FILE_CONFIG
+
+#
+# ProxyTimeout: For PHP-FPM.
+#
+ProxyTimeout 1800
+EOT
 
 echo "Setting 'www-data' user umask (0002) to grant group write permissions…"
 echo "umask 0002" >> /etc/apache2/envvars

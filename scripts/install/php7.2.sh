@@ -15,7 +15,8 @@ sed -i "s|memory_limit = 128M|memory_limit = 1024M|" $CONFIG_PHP_FPM $CONFIG_PHP
 sed -i "s|;session.save_path|session.save_path|" $CONFIG_PHP_FPM
 sed -i "s|upload_max_filesize = 2M|upload_max_filesize = 128M|" $CONFIG_PHP_FPM
 sed -i "s|post_max_size = 8M|post_max_size = 128M|" $CONFIG_PHP_FPM
-sed -i "s|max_execution_time = 30|max_execution_time = 300|" $CONFIG_PHP_FPM
+sed -i "s|max_execution_time = 30|max_execution_time = 1800|" $CONFIG_PHP_FPM
+sed -i "s|default_socket_timeout = 60|default_socket_timeout = 1800|" $CONFIG_PHP_FPM
 
 echo "Configuring XDebug…"
 cat >> /etc/php/7.2/mods-available/xdebug.ini <<EOL
