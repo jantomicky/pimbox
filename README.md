@@ -110,5 +110,4 @@ vagrant global-status --prune
 
 ## TODO
 
-- Imagick
 - Mailhog
