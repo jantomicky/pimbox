@@ -27,3 +27,13 @@ chmod +x /usr/local/bin/dep
 ln -s /usr/local/bin/dep /usr/local/bin/deployer
 
 echo "Deployer installed."
+
+# Imagick.
+echo "Installing ImageMagick & PHP Imagick…"
+apt-get install -y imagemagick php-imagick
+
+echo "Restarting apache2 and php-fpm services…"
+systemctl restart apache2.service
+systemctl restart php*
+
+echo "ImageMagick & PHP Imagick installed."
