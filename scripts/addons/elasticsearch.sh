@@ -3,7 +3,6 @@
 SOURCE_FILE="elasticsearch-bin.zip"
 SOURCE_URL="https://storage.propelo.cz/$SOURCE_FILE"
 EXECUTABLE_PATH="/usr/local/bin/elasticsearch"
-PID_FILE="/home/vagrant/elasticsearch.pid"
 
 echo "Installing custom Elasticsearch binaries (1.0.0 + 1.7.6)…"
 echo "Downloading the archive…"
@@ -23,17 +22,13 @@ echo "Setting up the executable shell script…"
 cat << EOT >> $EXECUTABLE_PATH
 #!/bin/bash
 
-PID_FILE="$PID_FILE"
-
 if [ -z "\$1" ]; then
     echo "Please specify which version to run (1.0.0 or 1.7.6)."
     exit 0
 fi
 
-if [ -f "\$PID_FILE" ]; then
-    echo "Stopping an already running Elasticsearch instance…"
-    pkill -F \$PID_FILE
-fi
+echo "Stopping all running Elasticsearch instances…"
+ps -ef | grep "/opt/elasticsearch" | awk '{print $2}' | head -n -1 | while read -r pid ; do kill -9 "$pid"; done
 
 ELASTICSEARCH="/opt/elasticsearch\$1/bin/elasticsearch"
 
@@ -42,19 +37,9 @@ if [ ! -x \$ELASTICSEARCH ]; then
     exit 0
 fi
 
-/bin/sh \$ELASTICSEARCH -d -p \$PID_FILE
+echo "Running Elasticsearch \$1…"
 
-echo "Elasticsearch \$1 is running…"
-EOT
-
-echo "Setting up Elasticsearch PID file cleanup on exit…"
-cat << EOT >> .bash_logout
-# Remove Elasticsearch PID file so that we don't
-# kill a random process on the next startup.
-PID_FILE="$PID_FILE"
-if [ -f "\$PID_FILE" ]; then
-    rm -f \$PID_FILE
-fi
+/bin/sh \$ELASTICSEARCH -d
 EOT
 
 chmod +x $EXECUTABLE_PATH
