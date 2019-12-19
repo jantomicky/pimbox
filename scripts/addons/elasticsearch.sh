@@ -28,7 +28,7 @@ if [ -z "\$1" ]; then
 fi
 
 echo "Stopping all running Elasticsearch instances…"
-ps -ef | grep "/opt/elasticsearch" | awk '{print $2}' | head -n -1 | while read -r pid ; do kill -9 "$pid"; done
+ps -ef | grep "/opt/elasticsearch" | awk '{print \$2}' | head -n -1 | while read -r pid ; do kill -9 "\$pid"; done
 
 ELASTICSEARCH="/opt/elasticsearch\$1/bin/elasticsearch"
 
