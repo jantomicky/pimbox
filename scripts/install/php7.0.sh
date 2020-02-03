@@ -7,7 +7,7 @@ echo "Installing PHP 7.0…"
 apt-get install -y php7.0 php7.0-fpm
 
 echo "Installing PHP modules…"
-apt-get install -y php7.0-mysql php7.0-xml php7.0-curl php7.0-soap php7.0-gd php7.0-bz2 php7.0-mbstring php7.0-zip php7.0-intl php7.0-dev php7.0-xdebug
+apt-get install -y php7.0-mysql php7.0-xml php7.0-curl php7.0-soap php7.0-gd php7.0-bz2 php7.0-mbstring php7.0-zip php7.0-intl php7.0-dev php7.0-xdebug php7.2-redis
 
 echo "Configuring PHP…"
 sed -i "s|short_open_tag = Off|short_open_tag = On|" $CONFIG_PHP_FPM $CONFIG_PHP_CLI
