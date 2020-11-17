@@ -1,25 +1,22 @@
 # Pimbox
 
-**Work in progress!** Some features are not implemented out of the box yet (Mailhog), do not use the box if you're not willing to set these up by yourself.
+Pimbox is a [Vagrant](https://www.vagrantup.com) box made specifically for running [Pimcore](https://pimcore.com).
 
-Pimbox is a [Vagrant](https://www.vagrantup.com) box made specifically for running [Pimcore 5](https://pimcore.com) and above. With corresponding PHP version installed (PHP 5.6 for Pimcore 2, PHP 7.0 for Pimcore 4) it should be able to run older versions as well. It is supposed to serve as a replacement for LAMP/WAMP localhost packages, however per-project installation should work too.
-
-Thanks to everybody behind [Laravel Homestead](https://github.com/laravel/homestead)! Pimbox uses a few Homestead snippets that helped me understand how Vagrant and Ruby work, and how to make this box easier to use.
+Thanks to everybody behind [Laravel Homestead](https://github.com/laravel/homestead)! Pimbox uses a few Homestead snippets that helped me understand how Vagrant and Ruby work, and how to make the box easier to use.
 
 ## Features
 
 ### Packages
 
-- Apache & MySQL, versions, modules, settings for >= [Pimcore 5](https://pimcore.com/docs/5.x/Development_Documentation/Installation_and_Upgrade/System_Requirements.html).
-- PHP (FPM, FastCGI, 7.0 + 7.2 scripts available for provisioning).
+- Apache & MySQL, versions, modules with [Pimcore](https://pimcore.com/docs/pimcore/current/Development_Documentation/Installation_and_Upgrade/System_Requirements.html) settings.
+- PHP (FPM, 7.0 & 7.4 provisioning scripts available).
 - Composer & Deployer.
 - Redis (server, CLI).
-- Elasticsearch (very specific, customized 1.0.0 and 1.7.6 versions for my personal use, probably of no use to anyone else).
-- Java Runtime Environment 8 (for Elasticsearch).
+- Elasticsearch (specific, customized 1.0.0 and 1.7.6 versions for my personal use, probably of no use to anyone else) + Java Runtime Environment 8.
 
 ### Bash
 
-- A few handy aliases, helper functions and settings, see the `bash_aliases` file.
+- A few aliases & settings, see the `configuration/bash_aliases` file.
 
 ## Requirements
 
@@ -39,7 +36,7 @@ vagrant plugin install vagrant-disksize
 
 ## Setup
 
-- Clone the Pimbox repository:
+- Clone the repository:
 ```
 git clone git@github.com:jantomicky/pimbox.git /path/to/pimbox
 ```
@@ -107,7 +104,3 @@ vm pimbox ssh
 ```
 vagrant global-status --prune
 ```
-
-## TODO
-
-- Mailhog
