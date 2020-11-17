@@ -22,7 +22,7 @@ copy:
 run:
     - path: "./provisioning/install/apache2.sh"
       # privileged: true
-    - path: "./provisioning/install/php7.2.sh"
+    - path: "./provisioning/install/php7.4.sh"
     - path: "./provisioning/install/php-tools.sh"
     - path: "./provisioning/install/mysql5.7.sh"
     - path: "./provisioning/install/redis.sh"
