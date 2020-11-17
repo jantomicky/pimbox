@@ -4,7 +4,7 @@ FILE_CONFIG="/etc/apache2/apache2.conf"
 FILE_VHOSTS="/tmp/vhosts"
 
 echo "Installing Apache2 (with FastCGI module)…"
-apt-get install -y apache2 libapache2-mod-fastcgi
+apt install -y apache2 libapache2-mod-fastcgi
 
 echo "Enabling Apache2 modules…"
 a2enmod actions alias vhost_alias rewrite headers fastcgi proxy_fcgi

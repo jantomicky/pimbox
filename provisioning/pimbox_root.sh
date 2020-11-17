@@ -14,18 +14,18 @@ echo "3" | update-alternatives --config editor > /dev/null
 echo "Adding ppa:ondrej/php…"
 add-apt-repository -y ppa:ondrej/php
 echo "Updating package lists…"
-apt-get update -y
+apt update -y
 
 echo "Upgrading packages…"
-apt-get upgrade -y
+apt upgrade -y
 
 echo "Installing essential packages…"
-apt-get install -y build-essential openjdk-8-jre-headless unzip htop libreoffice ffmpeg
+apt install -y build-essential openjdk-8-jre-headless unzip htop libreoffice ffmpeg
 
 echo "Installing Node.js & npm…"
 curl -s https://deb.nodesource.com/setup_8.x -o /tmp/nodejs_setup.sh
 $(which bash) /tmp/nodejs_setup.sh
-apt-get install -y nodejs
+apt install -y nodejs
 echo "Installing npm packages…"
 npm install -g cross-env
 echo "Downgrading npm to version 5.6.0 to prevent npm install errors…"
