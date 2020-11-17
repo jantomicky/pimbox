@@ -2,6 +2,9 @@
 
 # https://www.lullabot.com/articles/installing-mailhog-for-ubuntu-1604
 
+CONFIG_PHP_FPM="/etc/php/*/fpm/php.ini"
+CONFIG_PHP_CLI="/etc/php/*/cli/php.ini"
+
 # Install Sendmail & Go.
 apt-get update -y
 apt-get install -y sendmail golang-go
@@ -24,29 +27,28 @@ sudo cp /home/vagrant/gocode/bin/MailHog /usr/local/bin/mailhog
 sudo cp /home/vagrant/gocode/bin/mhsendmail /usr/local/bin/mhsendmail
 rm -rf ./gocode
 
-# @todo Change PHP configuration.
-# sendmail_path = /usr/local/bin/mhsendmail
+# Change PHP configuration.
+echo "Changing the PHP 'sendmail_path' configuration…"
+sed -i "s|;sendmail_path = |sendmail_path = /usr/local/bin/mhsendmail|" $CONFIG_PHP_FPM $CONFIG_PHP_CLI
 
-# Run MailHog.
-# @todo UFW is blocking port 8025, allow or disable.
-mailhog -api-bind-addr 192.168.20.10:8025 -ui-bind-addr 192.168.20.10:8085 -smtp-bind-addr 192.168.20.10:1025
+# Enable port 8025.
+echo "Enabling port 8025…"
+ufw allow 8025
 
 # Create a service.
+echo "Creating a MailHog service…"
+cat >> /lib/systemd/system/mailhog.service <<EOL
+[Unit]
+Description=MailHog service
 
-# /lib/systemd/system/mailhog.service
+[Service]
+ExecStart=/usr/local/bin/mailhog -smtp-bind-addr 127.0.0.1:1025
 
-# [Unit]
-# Description=MailHog service
+[Install]
+WantedBy=multi-user.target
+EOL
 
-# [Service]
-# ExecStart=/usr/local/bin/mailhog -smtp-bind-addr 127.0.0.1:1025
-
-# [Install]
-# WantedBy=multi-user.target
-
-# sudo systemctl start mailhog
-# sudo systemctl enable mailhog
-
-# @todo /etc/hosts
-# 127.0.0.1       localhost.localdomain localhost pimbox
-# 127.0.0.1       pimbox
+# Enable the service.
+echo "Enabling the MailHog service…"
+systemctl start mailhog
+systemctl enable mailhog
