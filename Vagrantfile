@@ -26,7 +26,7 @@ end
 Vagrant.configure("2") do |config|
 
   # Boxes: https://vagrantcloud.com/search
-  config.vm.box = "ubuntu/focal64"
+  config.vm.box = "ubuntu/bionic64"
 
   # Disksize: https://github.com/sprotheroe/vagrant-disksize
   if settings.include? 'disk'
