@@ -4,10 +4,10 @@ CONFIG_PHP_FPM="/etc/php/7.4/fpm/php.ini"
 CONFIG_PHP_CLI="/etc/php/7.4/cli/php.ini"
 
 echo "Installing PHP 7.4…"
-apt install -y php7.4 php7.4-fpm
+apt-get install -y php7.4 php7.4-fpm
 
 echo "Installing PHP modules…"
-apt install -y php7.4-mysql php7.4-xml php7.4-curl php7.4-soap php7.4-gd php7.4-bz2 php7.4-mbstring php7.4-zip php7.4-intl php7.4-dev php7.4-xdebug php7.4-redis php7.4-ldap
+apt-get install -y php7.4-mysql php7.4-xml php7.4-curl php7.4-soap php7.4-gd php7.4-bz2 php7.4-mbstring php7.4-zip php7.4-intl php7.4-dev php7.4-xdebug php7.4-redis php7.4-ldap
 
 echo "Configuring PHP…"
 sed -i "s|short_open_tag = Off|short_open_tag = On|" $CONFIG_PHP_FPM $CONFIG_PHP_CLI

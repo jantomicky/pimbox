@@ -9,7 +9,7 @@ echo "Installing MySQL 5.7…"
 echo "mysql-server-5.7 mysql-server/root_password password $MYSQL_PASSWORD_ROOT" | debconf-set-selections
 echo "mysql-server-5.7 mysql-server/root_password_again password $MYSQL_PASSWORD_ROOT" | debconf-set-selections
 
-apt install -y mysql-server-5.7
+apt-get install -y mysql-server-5.7
 
 echo "Allowing remote connections to MySQL…"
 sed -i "s|127.0.0.1|0.0.0.0|" $MYSQL_CONFIGURATION_FILE

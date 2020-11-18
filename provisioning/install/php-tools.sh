@@ -33,7 +33,7 @@ echo "Deployer installed."
 
 # Imagick.
 echo "Installing ImageMagick & PHP Imagick…"
-apt install -y imagemagick php-imagick
+apt-get install -y imagemagick php-imagick
 
 echo "ImageMagick & PHP Imagick installed."
 

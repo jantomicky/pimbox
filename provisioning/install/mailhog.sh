@@ -6,8 +6,8 @@ CONFIG_PHP_FPM="/etc/php/*/fpm/php.ini"
 CONFIG_PHP_CLI="/etc/php/*/cli/php.ini"
 
 # Install Sendmail & Go.
-apt update -y
-apt install -y sendmail golang-go
+apt-get update -y
+apt-get install -y sendmail golang-go
 
 # Set up Sendmail certificates.
 cd /etc/mail/tls

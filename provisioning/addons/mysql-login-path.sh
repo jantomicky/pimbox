@@ -12,7 +12,7 @@ if [ "$MYSQL_UP" -eq "0" ]; then
 fi
 
 echo "Installing expect…"
-apt install -y expect
+apt-get install -y expect
 
 # Set up a login path.
 echo "Running expect script to set up MySQL login-paths…"
@@ -29,4 +29,4 @@ echo "Restarting MySQL…"
 systemctl restart mysql.service
 
 echo "Cleaning up…"
-apt remove -y expect
+apt-get remove -y expect
