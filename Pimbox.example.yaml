@@ -17,7 +17,7 @@ copy:
       to: "$HOME/.bash_aliases"
     - from: "./configuration/.vimrc"
       to: "$HOME/.vimrc"
-    - from: "./configuration/.apache_virtual_hosts"
+    - from: "./configuration/apache_virtual_hosts"
       to: "/tmp/vhosts"
 run:
     - path: "./provisioning/install/apache2.sh"

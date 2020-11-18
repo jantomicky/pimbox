@@ -88,8 +88,8 @@ Vagrant.configure("2") do |config|
   end
 
   # Run essential provisioning shell scripts.
-  config.vm.provision "shell", path: "./scripts/pimbox_root.sh"
-  config.vm.provision "shell", path: "./scripts/pimbox_user.sh", privileged: false
+  config.vm.provision "shell", path: "./provisioning/pimbox_root.sh"
+  config.vm.provision "shell", path: "./provisioning/pimbox_user.sh", privileged: false
 
   # Run user specified provisioning shell scripts.
   settings['run'].each do |script|
